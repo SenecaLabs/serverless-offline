@@ -165,9 +165,6 @@ module.exports = class ServerlessOffline {
 
     this._verifyServerlessVersionCompatibility();
 
-    // Some users would like to know their environment outside of the handler
-    process.env.IS_OFFLINE = true;
-
     return Promise.resolve(this._buildServer())
       .then(() => this.apiGateway._listen())
       .then(() => this.hasWebsocketRoutes && this.apiGatewayWebSocket._listen())
@@ -210,7 +207,6 @@ module.exports = class ServerlessOffline {
     const command = this.options.exec;
     const options = {
       env: Object.assign(
-        { IS_OFFLINE: true },
         this.service.provider.environment,
         this.originalEnvironment,
       ),
